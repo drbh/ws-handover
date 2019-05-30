@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+    body {
+        background-color: rgb(223, 111, 124);
+    }
+
+    div {
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    #output {
+        /*color: white;*/
+        font-size: 6em;
+        padding-left: 3.5em;
+        padding-top: 2em;
+
+    }
+    </style>
+    <meta charset="utf-8">
+    <script>
+    window.addEventListener("load", function(evt) {
+        var output = document.getElementById("output");
+        // var input = document.getElementById("input");
+        var ws;
+
+        function toggleURLS(wsurl) {
+            if (wsurl == "ws://localhost:8081/echo") {
+                return "ws://localhost:8080/echo"
+            }
+            return "ws://localhost:8081/echo"
+        }
+
+        var wsurl = toggleURLS("")
+        var print = function(message) {
+            // var d = document.createElement("div");
+            // d.innerHTML = message;
+            // output.appendChild(d);
+
+            output.innerHTML = message
+        };
+        // document.getElementById("open").onclick = onOpn;
+
+        var onOpn = function(evt) {
+
+            document.getElementById("wsurl").innerHTML = wsurl
+            if (ws) {
+                return false;
+            }
+            ws = new WebSocket(wsurl);
+            ws.onopen = function(evt) {
+                print("OPEN");
+            }
+            ws.onclose = function(evt) {
+                print("CLOSE");
+                ws = null;
+                wsurl = toggleURLS(wsurl)
+            }
+            ws.onmessage = function(evt) {
+                print(evt.data);
+            }
+            ws.onerror = function(evt) {
+                print("ERROR: " + evt.data);
+            }
+            return false;
+        };
+        // document.getElementById("send").onclick = onSnd;
+
+        var onSnd = function(evt) {
+            if (!ws) {
+                return false;
+            }
+            // print("SEND: " + input.value);
+            // ws.send(input.value);
+            ws.send(1);
+            return false;
+        };
+        // document.getElementById("close").onclick = onClo;
+
+        var onClo = function(evt) {
+            if (!ws) {
+                return false;
+            }
+            ws.close();
+            return false;
+        };
+        var i = 0
+        setInterval(function() {
+            if (!ws) {
+                onOpn()
+                // document.getElementById("open").click()
+            } else {
+                onSnd()
+                // document.getElementById("send").click()
+            }
+            i++
+        }, 500);
+    });
+    </script>
+</head>
+
+<body>
+    <!--  <table>
+        <tr>
+            <td valign="top" width="50%">
+                <p>Click "Open" to create a connection to the server,
+                    "Send" to send a message to the server and "Close" to close the connection.
+                    You can change the message and send multiple times.
+                    <p>
+                        <form>
+                            <button id="open">Open</button>
+                            <button id="close">Close</button>
+                            <p><input id="input" type="text" value="Hello world!">
+                                <button id="send">Send</button>
+                        </form>
+            </td>
+            <td valign="top" width="50%">
+                <div id="output"></div>
+            </td>
+        </tr>
+    </table> -->
+    <div id="wsurl"></div>
+    <div id="output"></div>
+</body>
+
+</html>
