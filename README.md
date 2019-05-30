@@ -1,6 +1,8 @@
 # ws-handover
 
-Welcome to this HA repo!
+TLDR; Highly available websocket connections in Go  
+
+[ws-handover demo video](https://raw.githubusercontent.com/drbh/ws-handover/master/images/screenshot.png)
 
 
 ## What is this?
@@ -15,6 +17,7 @@ We pose a super simple solution - we run two instances of the back end and when 
 This solution works since we hold all of the application sate outside of the server and in the DB or Redis instance in this case.
 
 Follow the instructions to run this locally.
+
 
 ## Demo Video
 
