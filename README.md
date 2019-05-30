@@ -2,7 +2,11 @@
 
 TLDR; Highly available websocket connections in Go  
 
-[ws-handover demo video](https://raw.githubusercontent.com/drbh/ws-handover/master/images/screenshot.png)
+The top left shows where the websocket is connecting to, and the number in the center is the current counter value stored in the Redis DB. 
+
+When the connection is disrupted on the current websocket endpoint - the app switches it's connection over to the duplicated fallback process.  
+
+![ws-handover demo video](https://raw.githubusercontent.com/drbh/ws-handover/master/images/screenshot.png)
 
 
 ## What is this?
